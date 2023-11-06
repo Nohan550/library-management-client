@@ -1,16 +1,23 @@
-// FaBars PiBookOpenDuotone
+import { MdOutlineLightMode, MdOutlineModeNight } from "react-icons/md";
+import { useContext } from "react";
 import { FaBars } from "react-icons/fa";
 import { PiBookOpenDuotone } from "react-icons/pi";
 import { NavLink, Link } from "react-router-dom";
-
+import { AuthContext } from "../../AuthProvider/AuthProvider";
+import usersvg from "/user.png";
+import useTheme from "../../HOOKS/useTheme";
 const Navbar = () => {
+  const { logOut, user } = useContext(AuthContext);
+  const handleLog = () => {
+    logOut().then().catch();
+  };
   const pages = (
     <>
       <li>
         <NavLink
           className={({ isActive, isPending }) =>
-          isPending ? "pending" : isActive ? "text-sky-500" : ""
-        }
+            isPending ? "pending" : isActive ? "text-sky-500" : ""
+          }
           to="/"
         >
           HOME
@@ -20,8 +27,8 @@ const Navbar = () => {
       <li>
         <NavLink
           className={({ isActive, isPending }) =>
-          isPending ? "pending" : isActive ? "text-sky-500" : ""
-        }
+            isPending ? "pending" : isActive ? "text-sky-500" : ""
+          }
           to="/add-books"
         >
           ADD BOOKS
@@ -31,8 +38,8 @@ const Navbar = () => {
       <li>
         <NavLink
           className={({ isActive, isPending }) =>
-          isPending ? "pending" : isActive ? "text-sky-500" : ""
-        }
+            isPending ? "pending" : isActive ? "text-sky-500" : ""
+          }
           to="/all-books"
         >
           ALL BOOKS
@@ -42,8 +49,8 @@ const Navbar = () => {
       <li>
         <NavLink
           className={({ isActive, isPending }) =>
-          isPending ? "pending" : isActive ? "text-sky-500" : ""
-        }
+            isPending ? "pending" : isActive ? "text-sky-500" : ""
+          }
           to="/borrowed-books"
         >
           BORROWED BOOKS
@@ -51,6 +58,8 @@ const Navbar = () => {
       </li>
     </>
   );
+
+  const { mode, changeMode } = useTheme();
 
   return (
     <div className="mx-auto md:px-5   lg:max-w-[1150px] bg-base-100 ">
@@ -91,17 +100,51 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 font-medium text-base">{pages}</ul>
+          <ul className="menu menu-horizontal px-1 font-medium text-base">
+            {pages}
+          </ul>
         </div>
         <div className="navbar-end ">
-          <Link to="/login">
-            {" "}
-            <div className="px-[34px] py-[6px] font-medium rounded text-white bg-sky-500">
-              Login
+          {user ? (
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
+         
+                <h1
+                  className="text-md font-medium text-sky-400
+                "
+                >
+                  {user.displayName ? user.displayName : "USER"}
+                </h1>
+                <img
+                  src={user.photoURL ? user.photoURL : usersvg}
+                  className="rounded-full w-10"
+                  alt=""
+                />
+              </div>
+              <div
+                onClick={handleLog}
+                className="px-[34px] py-[6px] font-medium rounded text-white bg-sky-500"
+              >
+                Logout
+              </div>
+              <button onClick={changeMode} className="text-3xl">
+                {" "}
+                {mode == "light" ? (
+                  <MdOutlineModeNight className="text-sky-400"></MdOutlineModeNight>
+                ) : (
+                  <MdOutlineLightMode className="text-sky-400"></MdOutlineLightMode>
+                )}
+              </button>
             </div>
-          </Link>
+          ) : (
+            <Link to="/login">
+              {" "}
+              <div className="px-[34px] py-[6px] font-medium rounded text-white bg-sky-500">
+                Login
+              </div>
+            </Link>
+          )}
         </div>
-   
       </div>
     </div>
   );
