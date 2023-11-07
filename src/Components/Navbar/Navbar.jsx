@@ -29,9 +29,9 @@ const Navbar = () => {
           className={({ isActive, isPending }) =>
             isPending ? "pending" : isActive ? "text-sky-500" : ""
           }
-          to="/add-books"
+          to="/add-book"
         >
-          ADD BOOKS
+          ADD BOOK
         </NavLink>
       </li>
 
@@ -64,8 +64,8 @@ const Navbar = () => {
   return (
     <div className="mx-auto md:px-5   lg:max-w-[1150px] bg-base-100 ">
       <div className="lg:hidden pt-6 ">
-        <Link className="lg:hidden" to="/">
-          <div className="btn btn-ghost  flex  lg:block items-center font-semibold">
+        <Link  to="/">
+          <div className=" btn btn-ghost flex   items-center font-semibold">
             <h1 className=" text-5xl text-sky-500">
               <PiBookOpenDuotone></PiBookOpenDuotone>
             </h1>
@@ -83,7 +83,7 @@ const Navbar = () => {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-base font-medium"
+              className="menu menu-sm dropdown-content mt-3 z-[2] p-2 shadow bg-base-100 rounded-box w-52 text-base font-medium"
             >
               {pages}
             </ul>
@@ -107,7 +107,7 @@ const Navbar = () => {
         <div className="navbar-end ">
           {user ? (
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1">
+              <div className="flex flex-col-reverse md:flex-row items-center gap-1">
          
                 <h1
                   className="text-md font-medium text-sky-400

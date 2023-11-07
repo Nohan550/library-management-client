@@ -5,7 +5,8 @@ import HomePage from "../Components/HomePage/HomePage";
 import Login from "../Components/Login/Login";
 import Register from "../Components/Register/Register";
 import Secret from "../Secret/Secret";
-import AddBooks from "../Components/AddBooks/AddBooks";
+
+import AddBook from "../Components/AddBook/AddBook";
 
 
   const routes = createBrowserRouter([
@@ -19,8 +20,8 @@ import AddBooks from "../Components/AddBooks/AddBooks";
           element:<HomePage></HomePage>
         },
         {
-          path:"add-books",
-          element:<Secret><AddBooks></AddBooks></Secret>
+          path:"add-book",
+          element:<Secret><AddBook></AddBook></Secret>
         },
         {
           path:"login",
