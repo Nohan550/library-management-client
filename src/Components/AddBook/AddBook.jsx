@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 import add from "/add.svg";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const AddBook = () => {
   const { register, handleSubmit } = useForm();
@@ -13,6 +15,12 @@ const AddBook = () => {
     const rating = e.Rating;
     const description = e.Description;
     console.log(name, image, quantity, author,category, rating, description);
+    const book = {name,image,quantity,author,category,rating,description}
+    axios.post('http://localhost:5500/category/books',book).then(res=>{
+      if(res.data.insertedId){
+        toast.success('Added Successfully')
+      }
+    })
   };
   return (
     <div className="hero lg:h-[800px] bg-base-200">

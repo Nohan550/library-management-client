@@ -3,6 +3,8 @@ import { Link, useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import moment from "moment/moment";
+import toast from "react-hot-toast";
 
 const Details = () => {
   const book = useLoaderData();
@@ -11,14 +13,19 @@ const Details = () => {
 
 
   const handleBorrow = (e) => {
+    const curDate = moment().format("YYYY-M-D");   
     const name = e.Name;
     const email = e.Email;
     const returnDate = e.Date;
-    console.log(name, email, returnDate);
-    const borrowBook = { name, email, returnDate,book };
+    console.log(name, email,curDate, returnDate);
+    const borrowBook = { name, email,curDate, returnDate,book };
 
     axios.post(`http://localhost:5500/borrowedBooks`,borrowBook)
-    .then(res=>{console.log(res)})
+    .then(res=>{console.log(res)
+         if(res.data.insertedId){
+           toast.success("Borrowed")
+         }    
+    })
   };
 
   return (
@@ -39,7 +46,7 @@ const Details = () => {
               Borrow
             </label>
 
-            <Link to="">
+            <Link to="https://books.google.com.bd/books?uid=110416124159172258773&hl=en">
               <button className="btn text-white btn-info">Read</button>
             </Link>
           </div>
