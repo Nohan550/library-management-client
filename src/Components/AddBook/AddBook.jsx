@@ -5,7 +5,6 @@ const AddBook = () => {
   const { register, handleSubmit } = useForm();
 
   const handleAdd = (e) => {
-   
     const name = e.Name;
     const image = e.URL;
     const quantity = e.Quantity;
@@ -13,7 +12,7 @@ const AddBook = () => {
     const category = e.Category;
     const rating = e.Rating;
     const description = e.Description;
-        console.log(name,image,quantity,author,category,rating,description)
+    console.log(name, image, quantity, author,category, rating, description);
   };
   return (
     <div className="hero lg:h-[800px] bg-base-200">
@@ -76,20 +75,20 @@ const AddBook = () => {
                 <label className="label">
                   <span className="label-text">Category</span>
                 </label>
-                <input
-                  {...register("Category")}
+           
+                <select
                   className="input input-bordered"
-                  type="text"
+                  {...register("Category")}
+               
                   placeholder="Category"
-                  list="category"
-                />
-                <datalist id="category">
+                  
+                >
                   <option>Novel</option>
                   <option> Thriller</option>
                   <option>History</option>
                   <option>Drama</option>
                   <option>Sci-Fi</option>
-                </datalist>
+                </select>
               </div>
 
               <div className="form-control w-full">

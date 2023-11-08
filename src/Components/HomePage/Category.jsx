@@ -12,7 +12,7 @@ const Category = ({ cat }) => {
           <h2 className="card-title">{name}</h2>
 
           <div className="card-actions justify-end">
-            <Link><button className="btn bg-sky-400 text-white ">Learn more</button></Link>
+            <Link to={`category/${name}`}><button className="btn bg-sky-400 text-white ">Books</button></Link>
           </div>
         </div>
       </div>
