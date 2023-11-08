@@ -9,6 +9,7 @@ import Secret from "../Secret/Secret";
 import AddBook from "../Components/AddBook/AddBook";
 import CategoryBooks from "../CategoryBooks/CategoryBooks";
 import AllBooks from "../AllBooks/AllBooks";
+import Update from "../Update/Update";
 
 
   const routes = createBrowserRouter([
@@ -40,8 +41,13 @@ import AllBooks from "../AllBooks/AllBooks";
         },
         {
           path:'all-books',
-          element:<AllBooks></AllBooks>,
+          element:<Secret><AllBooks></AllBooks></Secret>,
           loader:()=>fetch('http://localhost:5500/category/books')
+        },
+        {
+          path:'update/:name',
+          element:<Secret><Update></Update></Secret>,
+          loader:({params})=>fetch(`http://localhost:5500/category/books/${params.name}`)
         }
       ]
     },

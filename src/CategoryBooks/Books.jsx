@@ -1,5 +1,5 @@
 import Rating from "react-rating";
-import { AiFillStar,AiOutlineStar } from "react-icons/ai";
+
 
 const Books = ({ catBooks }) => {
   const { name, image, author, rating, category } = catBooks;

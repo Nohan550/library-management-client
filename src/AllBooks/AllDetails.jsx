@@ -1,9 +1,10 @@
 import Rating from "react-rating";
+import { Link } from "react-router-dom";
 
 const AllDetails = ({ books }) => {
   const { name, image, author, rating, category } = books;
   return (
-    <div className="card card-side w-96 mx-auto bg-sky-100 shadow-xl">
+    <div className="card card-side w-96 mx-auto bg-sky-200 shadow-xl">
       <figure className="w-1/2">
         <img src={image} alt={category} className="rounded-xl  h-full" />
       </figure>
@@ -14,7 +15,7 @@ const AllDetails = ({ books }) => {
         <div className="card-actions justify-end">
           <h1>Rating</h1>
           <Rating initialRating={rating} readonly></Rating>
-          <button className="btn btn-info text-white">Update</button>
+          <Link to={`/update/${name}`}><button className="btn btn-info text-white">Update</button></Link>
         </div>
       </div>
     </div>
