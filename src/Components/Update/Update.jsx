@@ -18,18 +18,20 @@ const Update = () => {
      const upBook = {name,image,author,category,rating}
      axios.patch(`http://localhost:5500/category/books/${updateB.name}`,
       upBook
-     ).then(res=>{console.log(res)
-      toast.success(`${name} Updated`,{
-        style: {
-          border: '1px solid #87CEEB',
-          padding: '16px',
-          color: '#87CEEB0',
-        },
-        iconTheme: {
-          primary: '#87CEEB',
-          secondary: '#FFFAEE',
-        },
-      })
+     ).then(res=>{console.log(res.data)
+      if (res.data.modifiedCount > 0) {
+        toast.success(`${name} Updated`,{
+          style: {
+            border: '1px solid #87CEEB',
+            padding: '16px',
+            color: '#87CEEB0',
+          },
+          iconTheme: {
+            primary: '#87CEEB',
+            secondary: '#FFFAEE',
+          },
+        })
+      }
     })
     
   };

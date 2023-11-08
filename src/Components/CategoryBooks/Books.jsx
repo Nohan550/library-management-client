@@ -1,5 +1,5 @@
 import Rating from "react-rating";
-
+import { Link } from "react-router-dom";
 
 const Books = ({ catBooks }) => {
   const { name, image, author, rating, category } = catBooks;
@@ -9,21 +9,20 @@ const Books = ({ catBooks }) => {
       <figure className="px-10 pt-10">
         <img src={image} alt={name} className="rounded-xl h-52" />
       </figure>
-     
+
       <div className="card-body items-center text-center">
-      <h1 className="card-title">{name}</h1>
+        <h1 className="card-title">{name}</h1>
         <h2 className="text-lg font-medium">
           {author}
           <div className="badge ml-2 badge-info text-white">{category}</div>
         </h2>
         <h1 className="">Rating</h1>
-        <Rating
-          initialRating={rating}
-          readonly
-          
-        ></Rating>
+        <Rating initialRating={rating} readonly></Rating>
         <div className="card-actions">
-          <button className="btn btn-info text-white">Details</button>
+          <Link to={`/category/${category}/${name}`}>
+            {" "}
+            <button className="btn btn-info text-white">Details</button>
+          </Link>
         </div>
       </div>
     </div>

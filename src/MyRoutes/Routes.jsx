@@ -7,9 +7,12 @@ import Register from "../Components/Register/Register";
 import Secret from "../Secret/Secret";
 
 import AddBook from "../Components/AddBook/AddBook";
-import CategoryBooks from "../CategoryBooks/CategoryBooks";
-import AllBooks from "../AllBooks/AllBooks";
-import Update from "../Update/Update";
+import CategoryBooks from "../Components/CategoryBooks/CategoryBooks";
+import AllBooks from "../Components/AllBooks/AllBooks";
+import Update from "../Components/Update/Update";
+import Details from "../Components/Details/Details";
+
+
 
 
   const routes = createBrowserRouter([
@@ -48,7 +51,12 @@ import Update from "../Update/Update";
           path:'update/:name',
           element:<Secret><Update></Update></Secret>,
           loader:({params})=>fetch(`http://localhost:5500/category/books/${params.name}`)
-        }
+        },
+     {
+      path:"category/:category_name/:name",
+      element:<Secret><Details></Details></Secret>,
+      loader:({params})=>fetch(`http://localhost:5500/category/books/${params.name}`)
+     }
       ]
     },
    
