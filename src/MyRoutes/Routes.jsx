@@ -11,6 +11,7 @@ import CategoryBooks from "../Components/CategoryBooks/CategoryBooks";
 import AllBooks from "../Components/AllBooks/AllBooks";
 import Update from "../Components/Update/Update";
 import Details from "../Components/Details/Details";
+import Borrow from "../Components/Borrow/Borrow";
 
 
 
@@ -56,6 +57,11 @@ import Details from "../Components/Details/Details";
       path:"category/:category_name/:name",
       element:<Secret><Details></Details></Secret>,
       loader:({params})=>fetch(`http://localhost:5500/category/books/${params.name}`)
+     },
+     {
+      path:"borrowed-books",
+      element:<Borrow></Borrow>,
+      loader:()=>fetch('http://localhost:5500/borrowedBooks')
      }
       ]
     },
