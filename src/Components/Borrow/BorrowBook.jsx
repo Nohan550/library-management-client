@@ -1,20 +1,26 @@
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const BorrowBook = ({ books }) => {
-  
+  const navigate =useNavigate()
 
-  const { _id, curDate, returnDate,book_name, image, category } = books;
-
+  const { _id, curDate, returnDate,book_name, image, category,quantity } = books;
   const handleReturn = (_id) => {
     axios
       .delete(
         `https://library-management-server-six.vercel.app/borrowedBooks/${_id}`
       )
       .then((res) => {
-        console.log(res);
+     
         if (res.data.deletedCount > 0) {
-          toast.success("Returned,Please Refresh");
+          toast.success("Returned");
+          axios
+          .patch(`https://library-management-server-six.vercel.app/category/book/${book_name}`, {
+            quantity: quantity + 1,
+          })
+          .then((res) =>{ navigate('/borrowed-books')
+         });
         }
       });
   };

@@ -24,16 +24,20 @@ const AddBook = () => {
       rating,
       description,
     };
-    axios
-      .post(
-        "https://library-management-server-six.vercel.app/category/books",
-        book
-      )
-      .then((res) => {
-        if (res.data.insertedId) {
-          toast.success("Added Successfully");
-        }
-      });
+      if(!quantity<0){
+        axios
+        .post(
+          "https://library-management-server-six.vercel.app/category/books",
+          book
+        )
+        .then((res) => {
+          if (res.data.insertedId) {
+            toast.success("Added Successfully");
+          }
+        });
+      }else{
+        toast.error('Quantity must be positive value')
+      }
   };
   return (
     <div className="hero lg:h-[800px] bg-base-200">

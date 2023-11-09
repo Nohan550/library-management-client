@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { Link, useLoaderData } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -8,22 +8,32 @@ import toast from "react-hot-toast";
 
 const Details = () => {
   const book = useLoaderData();
-  const { image, author, rating, category, description } = book;
+  const { image, author, rating, category, description, quantity } = book;
   const { user } = useContext(AuthContext);
-  const[borrowed,setBorrowed]=useState()
+  const [borrowed, setBorrowed] = useState();
+  const navigate=useNavigate()
   const { register, handleSubmit } = useForm();
-  axios
-    .get(
-      `https://library-management-server-six.vercel.app/borrowedBooks/${book.name}`
-    )
-    .then((res) =>setBorrowed(res.data));
-    // console.log(borrowed)
+  useEffect(() => {
+    axios
+      .get(
+        `https://library-management-server-six.vercel.app/borrowedBooks/${book.name}`
+      )
+      .then((res) => {
+        if (res.data) {
+          setBorrowed(res.data.book_name);
+          return;
+        } else {
+          setBorrowed("book");
+        }
+      });
+  }, [book.name]);
+
   const handleBorrow = (e) => {
     const curDate = moment().format("YYYY-M-D");
     const name = e.Name;
     const email = e.Email;
     const returnDate = e.Date;
-    console.log(name, email, curDate, returnDate);
+    // console.log(name, email, curDate, returnDate);
     const borrowBook = {
       name,
       email,
@@ -35,34 +45,42 @@ const Details = () => {
       rating,
       category,
       description,
+      quantity
     };
 
-        if(!borrowed.book_name==book.name){
-          axios
-          .post(
-            `https://library-management-server-six.vercel.app/borrowedBooks`,
-            borrowBook
-          )
-          .then((res) => {
-            console.log(res);
-            if (res.data.insertedId) {
-              toast.success("Borrowed");
-            }
-          });
-        }else{
-          toast.error("Already Borrowed",{
-            style: {
-              border: '2px solid #87CEEB',
-              padding: '18px',
-              color: '#29B6F6',
-              
-            },
-            iconTheme: {
-              primary: '#87CEEB',
-              secondary: '#FFFAEE',
-            },
-          })
-        }
+    if (book.name == borrowed) {
+      toast.error("Already Borrowed", {
+        style: {
+          border: "2px solid #87CEEB",
+          padding: "18px",
+          color: "#29B6F6",
+        },
+        iconTheme: {
+          primary: "#87CEEB",
+          secondary: "#FFFAEE",
+        },
+      });
+
+      return;
+    } else {
+      axios
+        .post(
+          `https://library-management-server-six.vercel.app/borrowedBooks`,
+          borrowBook
+        )
+        .then((res) => {
+          console.log(res);
+          if (res.data.insertedId) {
+            toast.success("Borrowed");
+            axios
+              .patch(`https://library-management-server-six.vercel.app/category/book/${book.name}`, {
+                quantity: quantity - 1,
+              })
+              .then((res) =>{ console.log(res)
+              navigate(`/category/${category}`)});
+          }
+        });
+    }
   };
 
   return (
