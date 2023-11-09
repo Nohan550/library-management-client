@@ -5,11 +5,12 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import ggLogo from "/google.png"
+import ggLogo from "/google.png";
+import axios from "axios";
 const Login = () => {
   const { login, googleLogin } = useContext(AuthContext);
   const [showPass, setShowPass] = useState(false);
-  const location = useLocation()
+  const location = useLocation();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const handleLogin = (e) => {
@@ -18,18 +19,24 @@ const Login = () => {
 
     const toastLoad = toast.loading("Logging In....");
     // console.log(email,pass)
-    // if(user.email)
 
     login(email, pass)
       .then((result) => {
-        const user = result.user;
-        console.log(user);
-        navigate(location?.state ? location?.state :"/");
+        const logUser = result.user;
+        navigate(location?.state ? location?.state : "/");
         toast.success("Logged In", { id: toastLoad });
+        const user = { email };
+        axios
+          .post("https://library-management-server-six.vercel.app/jwt", user, {
+            withCredentials: true,
+          })
+          .then((res) => {
+            console.log(res.data);
+          });
       })
       .catch((error) => {
         console.log(error);
-        toast.error(`${error.message}`, { id: toastLoad });
+        toast.error(`Invalid email or password`, { id: toastLoad });
       });
   };
   const handleGoogle = () => {
@@ -37,12 +44,11 @@ const Login = () => {
     googleLogin()
       .then((result) => {
         toast.success("Logged In", { id: toastLoad });
-        console.log(result.user)
-        navigate(location?.state ? location?.state :"/");
-
+        console.log(result.user);
+        navigate(location?.state ? location?.state : "/");
       })
       .catch((error) => {
-        toast.error(`${error.message}`, { id: toastLoad });
+        toast.error(`Invalid user`, { id: toastLoad });
       });
   };
   return (
@@ -98,9 +104,14 @@ const Login = () => {
               <button className="btn bg-sky-400 text-white">Login</button>
             </div>
           </form>
-          <div onClick={handleGoogle} className="flex justify-center items-center mb-4 border rounded-lg text-lg bg-sky-200 font-medium text-gray-600 border-sky-500 p-2  gap-2 w-80 mx-auto"> <img src={ggLogo} className="w-6" alt="" /> 
-            <h1>Login With Google</h1></div>
-            
+          <div
+            onClick={handleGoogle}
+            className="flex justify-center items-center mb-4 border rounded-lg text-lg bg-sky-200 font-medium text-gray-600 border-sky-500 p-2  gap-2 w-80 mx-auto"
+          >
+            {" "}
+            <img src={ggLogo} className="w-6" alt="" />
+            <h1>Login With Google</h1>
+          </div>
         </div>
       </div>
     </div>

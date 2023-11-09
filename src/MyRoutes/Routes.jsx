@@ -86,11 +86,8 @@ const routes = createBrowserRouter([
       },
       {
         path: "borrowed-books",
-        element: <Borrow></Borrow>,
-        loader: () =>
-          fetch(
-            "https://library-management-server-six.vercel.app/borrowedBooks"
-          ),
+        element: <Secret><Borrow></Borrow></Secret>,
+   
       },
     ],
   },
