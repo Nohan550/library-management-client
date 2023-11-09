@@ -7,7 +7,7 @@ const Categories = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5500/category")
+      .get("https://library-management-server-six.vercel.app/category")
       .then((data) => setCategory(data.data));
   }, []);
   return (

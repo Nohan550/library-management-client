@@ -1,14 +1,12 @@
 import axios from "axios";
 
-
 const instance = axios.create({
-    baseURL :'http://localhost:5500/',
-    withCredentials : true
+  baseURL: "https://library-management-server-six.vercel.app/",
+  withCredentials: true,
 });
 
 const useAxios = () => {
-    
-    return instance
+  return instance;
 };
 
 export default useAxios;

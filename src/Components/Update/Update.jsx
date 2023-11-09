@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 const Update = () => {
   const { register, handleSubmit } = useForm();
-  const updateB = useLoaderData()
+  const updateB = useLoaderData();
 
   const handleUpdate = (e) => {
     const name = e.Name;
@@ -15,25 +15,28 @@ const Update = () => {
     const author = e.Author;
     const category = e.Category;
     const rating = e.Rating;
-     const upBook = {name,image,author,category,rating}
-     axios.patch(`http://localhost:5500/category/books/${updateB.name}`,
-      upBook
-     ).then(res=>{console.log(res.data)
-      if (res.data.modifiedCount > 0) {
-        toast.success(`${name} Updated`,{
-          style: {
-            border: '1px solid #87CEEB',
-            padding: '16px',
-            color: '#87CEEB0',
-          },
-          iconTheme: {
-            primary: '#87CEEB',
-            secondary: '#FFFAEE',
-          },
-        })
-      }
-    })
-    
+    const upBook = { name, image, author, category, rating };
+    axios
+      .patch(
+        `https://library-management-server-six.vercel.app/category/books/${updateB.name}`,
+        upBook
+      )
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.modifiedCount > 0) {
+          toast.success(`${name} Updated`, {
+            style: {
+              border: "1px solid #87CEEB",
+              padding: "16px",
+              color: "#87CEEB0",
+            },
+            iconTheme: {
+              primary: "#87CEEB",
+              secondary: "#FFFAEE",
+            },
+          });
+        }
+      });
   };
   return (
     <div className="hero lg:h-[800px] bg-base-200">

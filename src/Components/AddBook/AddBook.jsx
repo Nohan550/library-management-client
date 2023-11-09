@@ -14,13 +14,26 @@ const AddBook = () => {
     const category = e.Category;
     const rating = e.Rating;
     const description = e.Description;
-    console.log(name, image, quantity, author,category, rating, description);
-    const book = {name,image,quantity,author,category,rating,description}
-    axios.post('http://localhost:5500/category/books',book).then(res=>{
-      if(res.data.insertedId){
-        toast.success('Added Successfully')
-      }
-    })
+    console.log(name, image, quantity, author, category, rating, description);
+    const book = {
+      name,
+      image,
+      quantity,
+      author,
+      category,
+      rating,
+      description,
+    };
+    axios
+      .post(
+        "https://library-management-server-six.vercel.app/category/books",
+        book
+      )
+      .then((res) => {
+        if (res.data.insertedId) {
+          toast.success("Added Successfully");
+        }
+      });
   };
   return (
     <div className="hero lg:h-[800px] bg-base-200">
@@ -83,13 +96,11 @@ const AddBook = () => {
                 <label className="label">
                   <span className="label-text">Category</span>
                 </label>
-           
+
                 <select
                   className="input input-bordered"
                   {...register("Category")}
-               
                   placeholder="Category"
-                  
                 >
                   <option>Novel</option>
                   <option> Thriller</option>

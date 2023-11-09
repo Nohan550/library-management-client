@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import { useForm } from "react-hook-form";
@@ -8,24 +8,61 @@ import toast from "react-hot-toast";
 
 const Details = () => {
   const book = useLoaderData();
+  const { image, author, rating, category, description } = book;
   const { user } = useContext(AuthContext);
+  const[borrowed,setBorrowed]=useState()
   const { register, handleSubmit } = useForm();
-
-
+  axios
+    .get(
+      `https://library-management-server-six.vercel.app/borrowedBooks/${book.name}`
+    )
+    .then((res) =>setBorrowed(res.data));
+    // console.log(borrowed)
   const handleBorrow = (e) => {
-    const curDate = moment().format("YYYY-M-D");   
+    const curDate = moment().format("YYYY-M-D");
     const name = e.Name;
     const email = e.Email;
     const returnDate = e.Date;
-    console.log(name, email,curDate, returnDate);
-    const borrowBook = { name, email,curDate, returnDate,book };
+    console.log(name, email, curDate, returnDate);
+    const borrowBook = {
+      name,
+      email,
+      curDate,
+      returnDate,
+      book_name: book.name,
+      image,
+      author,
+      rating,
+      category,
+      description,
+    };
 
-    axios.post(`http://localhost:5500/borrowedBooks`,borrowBook)
-    .then(res=>{console.log(res)
-         if(res.data.insertedId){
-           toast.success("Borrowed")
-         }    
-    })
+        if(!borrowed.book_name==book.name){
+          axios
+          .post(
+            `https://library-management-server-six.vercel.app/borrowedBooks`,
+            borrowBook
+          )
+          .then((res) => {
+            console.log(res);
+            if (res.data.insertedId) {
+              toast.success("Borrowed");
+            }
+          });
+        }else{
+          toast.error("Already Borrowed",{
+            style: {
+              border: '2px solid #87CEEB',
+              padding: '18px',
+              color: '#29B6F6',
+              
+            },
+            iconTheme: {
+              primary: '#87CEEB',
+              secondary: '#FFFAEE',
+            },
+          })
+        }
   };
 
   return (
@@ -42,9 +79,15 @@ const Details = () => {
           <p className="mb-5">{book.description}</p>
           <div className=" space-x-2">
             {/* <button className="btn btn-info text-white">Borrow</button> */}
-            <label htmlFor="my_modal_7" className="btn btn-info text-white">
-              Borrow
-            </label>
+            {book.quantity > 0 ? (
+              <label htmlFor="my_modal_7" className="btn btn-info text-white ">
+                Borrow
+              </label>
+            ) : (
+              <button className="btn btn-error text-white disabled">
+                Borrow
+              </button>
+            )}
 
             <Link to="https://books.google.com.bd/books?uid=110416124159172258773&hl=en">
               <button className="btn text-white btn-info">Read</button>
