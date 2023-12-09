@@ -5,3 +5,6 @@
 ### 2. User has to login to full access the websites features
 ### 3. An user can find books category wise,can add books,borrow books for a certain period and see which books they borrowed
 ### 4. Borrowed books can be returned
+
+## Technologies 
+ ### React JS,Node JS,Express JS,Firebase,MongoDB,CSS,Tailwind,daisyUI
