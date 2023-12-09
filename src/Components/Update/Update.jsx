@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form";
 import update from "/update.svg";
 import { useLoaderData } from "react-router-dom";
-import axios from "axios";
+
 import toast from "react-hot-toast";
+import useAxios from "../../HOOKS/useAxios";
 
 const Update = () => {
+  const axios=useAxios()
   const { register, handleSubmit } = useForm();
   const updateB = useLoaderData();
 
@@ -22,7 +24,7 @@ const Update = () => {
         upBook
       )
       .then((res) => {
-        console.log(res.data);
+       
         if (res.data.modifiedCount > 0) {
           toast.success(`${name} Updated`, {
             style: {

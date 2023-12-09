@@ -1,5 +1,5 @@
 import bg1 from "/jared.jpg";
-import bg2 from "/jared2.jpg";
+
 
 // Import Swiper React components
 

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import Category from "./Category";
-import axios from "axios";
+import useAxios from "../../HOOKS/useAxios";
+
 
 const Categories = () => {
+  const axios=useAxios()
   const [category, setCategory] = useState([]);
 
   useEffect(() => {

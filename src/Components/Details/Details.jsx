@@ -2,11 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+
 import moment from "moment/moment";
 import toast from "react-hot-toast";
+import useAxios from "../../HOOKS/useAxios";
 
 const Details = () => {
+  const axios =useAxios()
   const book = useLoaderData();
   const { image, author, rating, category, description, quantity } = book;
   const { user } = useContext(AuthContext);
@@ -16,7 +18,7 @@ const Details = () => {
   useEffect(() => {
     axios
       .get(
-        `https://library-management-server-six.vercel.app/borrowedBooks/${book.name}`
+        `https://library-management-server-six.vercel.app/borrowedBooks?email=${user?.email}/${book.name}`
       )
       .then((res) => {
         if (res.data) {
@@ -26,14 +28,14 @@ const Details = () => {
           setBorrowed("book");
         }
       });
-  }, [book.name]);
+  }, [book.name,user?.email]);
 
   const handleBorrow = (e) => {
     const curDate = moment().format("YYYY-M-D");
     const name = e.Name;
     const email = e.Email;
     const returnDate = e.Date;
-    // console.log(name, email, curDate, returnDate);
+
     const borrowBook = {
       name,
       email,
@@ -45,7 +47,7 @@ const Details = () => {
       rating,
       category,
       description,
-      quantity
+      quantity:quantity-1
     };
 
     if (book.name == borrowed) {
@@ -69,14 +71,15 @@ const Details = () => {
           borrowBook
         )
         .then((res) => {
-          console.log(res);
+     
           if (res.data.insertedId) {
             toast.success("Borrowed");
             axios
               .patch(`https://library-management-server-six.vercel.app/category/book/${book.name}`, {
                 quantity: quantity - 1,
               })
-              .then((res) =>{ console.log(res)
+              .then((res) =>{ 
+              
               navigate(`/category/${category}`)});
           }
         });
@@ -96,7 +99,7 @@ const Details = () => {
           <h1 className="mb-5 text-5xl font-bold">{book.name}</h1>
           <p className="mb-5">{book.description}</p>
           <div className=" space-x-2">
-            {/* <button className="btn btn-info text-white">Borrow</button> */}
+            
             {book.quantity > 0 ? (
               <label htmlFor="my_modal_7" className="btn btn-info text-white ">
                 Borrow

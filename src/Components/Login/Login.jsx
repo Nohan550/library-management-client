@@ -6,8 +6,10 @@ import { AuthContext } from "../../AuthProvider/AuthProvider";
 import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import ggLogo from "/google.png";
-import axios from "axios";
+import useAxios from "../../HOOKS/useAxios";
+
 const Login = () => {
+  const axios = useAxios()
   const { login, googleLogin } = useContext(AuthContext);
   const [showPass, setShowPass] = useState(false);
   const location = useLocation();
@@ -18,20 +20,21 @@ const Login = () => {
     const pass = e.password;
 
     const toastLoad = toast.loading("Logging In....");
-    // console.log(email,pass)
+
 
     login(email, pass)
       .then((result) => {
         const logUser = result.user;
-        navigate(location?.state ? location?.state : "/");
+        
         toast.success("Logged In", { id: toastLoad });
         const user = { email };
         axios
-          .post("https://library-management-server-six.vercel.app/jwt", user, {
-            withCredentials: true,
-          })
+          .post("/jwt", user)
           .then((res) => {
             console.log(res.data);
+            if(res.data.success){
+               // navigate(location?.state ? location?.state : "/");
+            }
           });
       })
       .catch((error) => {
