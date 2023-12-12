@@ -12,7 +12,9 @@ const Borrow = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5500/borrowedBooks?email=${user?.email}`)
+      .get(
+        `https://library-management-server-six.vercel.app/borrowedBooks?email=${user?.email}`
+      )
       .then((res) => setBorrowed(res.data));
   }, [user?.email]);
   return (
@@ -29,14 +31,16 @@ const Borrow = () => {
               onClick={() => {
                 {
                   axios
-                    .delete(`http://localhost:5500/borrowedBooks/${books._id}`)
+                    .delete(
+                      `https://library-management-server-six.vercel.app/borrowedBooks/${books._id}`
+                    )
                     .then((res) => {
                       if (res.data.deletedCount > 0) {
                         toast.success("Returned");
 
                         axios
                           .patch(
-                            `http://localhost:5500/category/book/${books.book_name}`,
+                            `https://library-management-server-six.vercel.app/category/book/${books.book_name}`,
                             {
                               quantity: books.quantity + 1,
                             }

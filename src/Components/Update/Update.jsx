@@ -19,7 +19,10 @@ const Update = () => {
     const rating = e.Rating;
     const upBook = { name, image, author, category, rating };
     axios
-      .patch(`http://localhost:5500/category/books/${updateB.name}`, upBook)
+      .patch(
+        `https://library-management-server-six.vercel.app/category/books/${updateB.name}`,
+        upBook
+      )
       .then((res) => {
         if (res.data.modifiedCount > 0) {
           toast.success(`${name} Updated`, {

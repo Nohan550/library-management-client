@@ -26,12 +26,17 @@ const AddBook = () => {
       description,
     };
     if (quantity > 0) {
-      axios.post("http://localhost:5500/category/books", book).then((res) => {
-        if (res.data.insertedId) {
-          toast.success("Added Successfully");
-        }
-        return;
-      });
+      axios
+        .post(
+          "https://library-management-server-six.vercel.app/category/books",
+          book
+        )
+        .then((res) => {
+          if (res.data.insertedId) {
+            toast.success("Added Successfully");
+          }
+          return;
+        });
     } else {
       toast.error("Quantity must be positive value");
     }

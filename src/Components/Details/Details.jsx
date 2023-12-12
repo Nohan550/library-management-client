@@ -18,7 +18,7 @@ const Details = () => {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5500/borrowedBooks?email=${user?.email}/${book.name}`
+        `https://library-management-server-six.vercel.app/borrowedBooks?email=${user?.email}/${book.name}`
       )
       .then((res) => {
         if (res.data) {
@@ -66,14 +66,20 @@ const Details = () => {
       return;
     } else {
       axios
-        .post(`http://localhost:5500/borrowedBooks`, borrowBook)
+        .post(
+          `https://library-management-server-six.vercel.app/borrowedBooks`,
+          borrowBook
+        )
         .then((res) => {
           if (res.data.insertedId) {
             toast.success("Borrowed");
             axios
-              .patch(`http://localhost:5500/category/book/${book.name}`, {
-                quantity: quantity - 1,
-              })
+              .patch(
+                `https://library-management-server-six.vercel.app/category/book/${book.name}`,
+                {
+                  quantity: quantity - 1,
+                }
+              )
               .then((res) => {
                 navigate(`/category/${category}`);
               });

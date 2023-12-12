@@ -7,7 +7,9 @@ const AllBooks = () => {
   const [filter, setFilter] = useState(false);
   useEffect(() => {
     axios
-      .get(`http://localhost:5500/category/books?filter=${filter}`)
+      .get(
+        `https://library-management-server-six.vercel.app/category/books?filter=${filter}`
+      )
       .then((res) => setAll(res.data));
   }, [filter]);
 
