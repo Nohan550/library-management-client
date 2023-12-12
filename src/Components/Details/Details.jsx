@@ -8,17 +8,17 @@ import toast from "react-hot-toast";
 import useAxios from "../../HOOKS/useAxios";
 
 const Details = () => {
-  const axios =useAxios()
+  const axios = useAxios();
   const book = useLoaderData();
   const { image, author, rating, category, description, quantity } = book;
   const { user } = useContext(AuthContext);
   const [borrowed, setBorrowed] = useState();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   useEffect(() => {
     axios
       .get(
-        `https://library-management-server-six.vercel.app/borrowedBooks?email=${user?.email}/${book.name}`
+        `http://localhost:5500/borrowedBooks?email=${user?.email}/${book.name}`
       )
       .then((res) => {
         if (res.data) {
@@ -28,7 +28,7 @@ const Details = () => {
           setBorrowed("book");
         }
       });
-  }, [book.name,user?.email]);
+  }, [book.name, user?.email]);
 
   const handleBorrow = (e) => {
     const curDate = moment().format("YYYY-M-D");
@@ -47,7 +47,7 @@ const Details = () => {
       rating,
       category,
       description,
-      quantity:quantity-1
+      quantity: quantity - 1,
     };
 
     if (book.name == borrowed) {
@@ -66,21 +66,17 @@ const Details = () => {
       return;
     } else {
       axios
-        .post(
-          `https://library-management-server-six.vercel.app/borrowedBooks`,
-          borrowBook
-        )
+        .post(`http://localhost:5500/borrowedBooks`, borrowBook)
         .then((res) => {
-     
           if (res.data.insertedId) {
             toast.success("Borrowed");
             axios
-              .patch(`https://library-management-server-six.vercel.app/category/book/${book.name}`, {
+              .patch(`http://localhost:5500/category/book/${book.name}`, {
                 quantity: quantity - 1,
               })
-              .then((res) =>{ 
-              
-              navigate(`/category/${category}`)});
+              .then((res) => {
+                navigate(`/category/${category}`);
+              });
           }
         });
     }
@@ -99,7 +95,6 @@ const Details = () => {
           <h1 className="mb-5 text-5xl font-bold">{book.name}</h1>
           <p className="mb-5">{book.description}</p>
           <div className=" space-x-2">
-            
             {book.quantity > 0 ? (
               <label htmlFor="my_modal_7" className="btn btn-info text-white ">
                 Borrow

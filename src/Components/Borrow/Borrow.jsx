@@ -1,4 +1,3 @@
-
 import BorrowBook from "./BorrowBook";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
@@ -7,16 +6,13 @@ import toast from "react-hot-toast";
 import useAxios from "../../HOOKS/useAxios";
 
 const Borrow = () => {
-  const axios=useAxios()
+  const axios = useAxios();
   const { user } = useContext(AuthContext);
   const [borrowed, setBorrowed] = useState([]);
 
-
   useEffect(() => {
     axios
-      .get(
-        `https://library-management-server-six.vercel.app/borrowedBooks?email=${user?.email}`
-      )
+      .get(`http://localhost:5500/borrowedBooks?email=${user?.email}`)
       .then((res) => setBorrowed(res.data));
   }, [user?.email]);
   return (
@@ -33,16 +29,14 @@ const Borrow = () => {
               onClick={() => {
                 {
                   axios
-                    .delete(
-                      `https://library-management-server-six.vercel.app/borrowedBooks/${books._id}`
-                    )
+                    .delete(`http://localhost:5500/borrowedBooks/${books._id}`)
                     .then((res) => {
                       if (res.data.deletedCount > 0) {
                         toast.success("Returned");
 
                         axios
                           .patch(
-                            `https://library-management-server-six.vercel.app/category/book/${books.book_name}`,
+                            `http://localhost:5500/category/book/${books.book_name}`,
                             {
                               quantity: books.quantity + 1,
                             }

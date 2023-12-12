@@ -43,9 +43,7 @@ const routes = createBrowserRouter([
         path: "category/:category_name",
         element: <CategoryBooks></CategoryBooks>,
         loader: ({ params }) =>
-          fetch(
-            `https://library-management-server-six.vercel.app/category/${params.category_name}`
-          ),
+          fetch(`http://localhost:5500/category/${params.category_name}`),
       },
       {
         path: "all-books",
@@ -54,10 +52,6 @@ const routes = createBrowserRouter([
             <AllBooks></AllBooks>
           </Secret>
         ),
-        loader: () =>
-          fetch(
-            "https://library-management-server-six.vercel.app/category/books"
-          ),
       },
       {
         path: "update/:name",
@@ -67,9 +61,7 @@ const routes = createBrowserRouter([
           </Secret>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://library-management-server-six.vercel.app/category/books/${params.name}`
-          ),
+          fetch(`http://localhost:5500/category/books/${params.name}`),
       },
       {
         path: "category/:category_name/:name",
@@ -79,15 +71,15 @@ const routes = createBrowserRouter([
           </Secret>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://library-management-server-six.vercel.app/category/books/${params.name}`
-          ),
-      
+          fetch(`http://localhost:5500/category/books/${params.name}`),
       },
       {
         path: "borrowed-books",
-        element: <Secret><Borrow></Borrow></Secret>,
-   
+        element: (
+          <Secret>
+            <Borrow></Borrow>
+          </Secret>
+        ),
       },
     ],
   },

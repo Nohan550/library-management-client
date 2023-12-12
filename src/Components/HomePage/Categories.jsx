@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import Category from "./Category";
 import useAxios from "../../HOOKS/useAxios";
 
-
 const Categories = () => {
-  const axios=useAxios()
+  const axios = useAxios();
   const [category, setCategory] = useState([]);
 
   useEffect(() => {
     axios
-      .get("https://library-management-server-six.vercel.app/category")
+      .get("http://localhost:5500/category")
       .then((data) => setCategory(data.data));
   }, []);
   return (

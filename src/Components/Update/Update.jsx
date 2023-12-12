@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import useAxios from "../../HOOKS/useAxios";
 
 const Update = () => {
-  const axios=useAxios()
+  const axios = useAxios();
   const { register, handleSubmit } = useForm();
   const updateB = useLoaderData();
 
@@ -19,12 +19,8 @@ const Update = () => {
     const rating = e.Rating;
     const upBook = { name, image, author, category, rating };
     axios
-      .patch(
-        `https://library-management-server-six.vercel.app/category/books/${updateB.name}`,
-        upBook
-      )
+      .patch(`http://localhost:5500/category/books/${updateB.name}`, upBook)
       .then((res) => {
-       
         if (res.data.modifiedCount > 0) {
           toast.success(`${name} Updated`, {
             style: {

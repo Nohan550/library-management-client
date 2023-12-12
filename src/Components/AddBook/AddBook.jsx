@@ -1,13 +1,12 @@
 import { useForm } from "react-hook-form";
 import add from "/add.svg";
 
-
 import toast from "react-hot-toast";
 import useAxios from "../../HOOKS/useAxios";
 
 const AddBook = () => {
   const { register, handleSubmit } = useForm();
-  const axios =useAxios()
+  const axios = useAxios();
   const handleAdd = (e) => {
     const name = e.Name;
     const image = e.URL;
@@ -16,7 +15,7 @@ const AddBook = () => {
     const category = e.Category;
     const rating = e.Rating;
     const description = e.Description;
- 
+
     const book = {
       name,
       image,
@@ -26,21 +25,16 @@ const AddBook = () => {
       rating,
       description,
     };
-      if(quantity>0){
-        axios
-        .post(
-          "https://library-management-server-six.vercel.app/category/books",
-          book
-        )
-        .then((res) => {
-          if (res.data.insertedId) {
-            toast.success("Added Successfully");
-          }
-          return
-        });
-      }else{
-        toast.error('Quantity must be positive value')
-      }
+    if (quantity > 0) {
+      axios.post("http://localhost:5500/category/books", book).then((res) => {
+        if (res.data.insertedId) {
+          toast.success("Added Successfully");
+        }
+        return;
+      });
+    } else {
+      toast.error("Quantity must be positive value");
+    }
   };
   return (
     <div className="hero lg:h-[800px] bg-base-200">
